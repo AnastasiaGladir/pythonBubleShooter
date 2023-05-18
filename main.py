@@ -237,7 +237,7 @@ def runGame():
                 for column in range(len(bubbleArray[0])):
                     if bubbleArray[row][column] != BLANK:
                         finalBubbleList.append(bubbleArray[row][column])
-                        if bubbleArray[row][column].rect.bottom > (WINDOWHEIGHT - arrow.rect.height - 10):
+                        if bubbleArray[row][column].rect.bottom > (WINDOWHEIGHT - arrow.rect.height - 50):
                             return score.total, 'lose'
 
             if len(finalBubbleList) < 1:
