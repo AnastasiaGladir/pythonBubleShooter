@@ -3,13 +3,11 @@ import pygame.gfxdraw
 from pygame.locals import *
 import pygame_menu
 from pygame_menu import themes
-
-
 FPS = 120
 WINDOWWIDTH = 700
 WINDOWHEIGHT = 500
 TEXTHEIGHT = 20
-BUBBLERADIUS = 17
+BUBBLERADIUS = 20
 BUBBLEWIDTH = BUBBLERADIUS * 2
 BUBBLELAYERS = 5
 BUBBLEYADJUST = 5
@@ -17,14 +15,10 @@ STARTX = WINDOWWIDTH / 2
 STARTY = WINDOWHEIGHT - 27
 ARRAYWIDTH = 21
 ARRAYHEIGHT = 14
-
 RIGHT = 'right'
 LEFT = 'left'
 BLANK = '.'
-
 ## COLORS ##
-
-#            R    G    B
 white = ((255,255,255))
 blue = ((0,0,255))
 green = ((0,255,0))
@@ -53,17 +47,12 @@ coffee_brown =((200,190,140))
 moon_glow = ((235,245,255))
 
 BGCOLOR = purple
-COLORLIST = [sky_blue,magenta, moon_glow,blue_green,dandilion_yellow]
-
-
 class Background(pygame.sprite.Sprite):
     def __init__(self, image_file, location):
         pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
         self.image = pygame.image.load(image_file)
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
-BackGround = Background('picture_fon.jpg', [0,0])
-
 
 
 class Bubble(pygame.sprite.Sprite):
@@ -161,7 +150,7 @@ class Score(object):
     def draw(self):
         DISPLAYSURF.blit(self.render, self.rect)
 
-def runGame():
+def runGame(COLORLIST, BackGround):
     musicList = ['Music1.mp3', 'Music2.mp3', 'Music3.mp3']
     pygame.mixer.music.load(musicList[0])
     pygame.mixer.music.play()
@@ -498,8 +487,6 @@ def stopBubble(bubbleArray, newBubble, launchBubble, score):
                     newBubble = None
 
     return launchBubble, newBubble, score
-
-
 def addBubbleToTop(bubbleArray, bubble):
     posx = bubble.rect.centerx
     leftSidex = posx - BUBBLERADIUS
@@ -614,17 +601,42 @@ FPSCLOCK = pygame.time.Clock()
 MAINFONT = pygame.font.SysFont('Helvetica', TEXTHEIGHT)
 DISPLAYSURF, DISPLAYRECT = makeDisplay()
 
-def start_the_game():
+def start_the_game1():
+
     mainmenu._open(loading)
     pygame.init()
+    COLORLIST = [sky_blue, magenta, moon_glow]
     pygame.display.set_caption('Puzzle Bobble')
-    while True:
-        score, winorlose = runGame()
-        endScreen(score, winorlose)
+    BackGround = Background('picture_fon.jpg', [0, 0])
 
+
+    while True:
+        score, winorlose = runGame(COLORLIST, BackGround)
+        endScreen(score, winorlose)
+def start_the_game2():
+    mainmenu._open(loading)
+    pygame.init()
+    COLORLIST = [sky_blue, magenta, moon_glow, blue_green]
+    pygame.display.set_caption('Puzzle Bobble')
+    BackGround2 = Background('picture_fon2.jpg', [0, 0])
+
+    while True:
+        score, winorlose = runGame(COLORLIST, BackGround2)
+        endScreen(score, winorlose)
+def start_the_game3():
+    mainmenu._open(loading)
+    pygame.init()
+    COLORLIST = [sky_blue, magenta, moon_glow, blue_green, dandilion_yellow]
+    pygame.display.set_caption('Puzzle Bobble')
+    BackGround3 = Background('picture_fon3.png', [0, 0])
+    while True:
+        score, winorlose = runGame(COLORLIST, BackGround3)
+        endScreen(score, winorlose)
 mainmenu = pygame_menu.Menu('Welcome', 700, 500, theme=themes.THEME_BLUE)
 mainmenu.add.text_input('Name: ', default='username')
-mainmenu.add.button('Play', start_the_game)
+mainmenu.add.button('Level 1', start_the_game1)
+mainmenu.add.button('Level 2', start_the_game2)
+mainmenu.add.button('Level 3', start_the_game3)
 mainmenu.add.button('Quit', pygame_menu.events.EXIT)
 
 
