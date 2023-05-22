@@ -161,20 +161,6 @@ class Score(object):
     def draw(self):
         DISPLAYSURF.blit(self.render, self.rect)
 
-
-def main():
-    global FPSCLOCK, DISPLAYSURF, DISPLAYRECT, MAINFONT
-    pygame.init()
-    FPSCLOCK = pygame.time.Clock()
-    pygame.display.set_caption('Puzzle Bobble')
-    MAINFONT = pygame.font.SysFont('Helvetica', TEXTHEIGHT)
-    DISPLAYSURF, DISPLAYRECT = makeDisplay()
-
-    while True:
-        score, winorlose = runGame()
-        endScreen(score, winorlose)
-
-
 def runGame():
     musicList = ['Music1.mp3', 'Music2.mp3', 'Music3.mp3']
     pygame.mixer.music.load(musicList[0])
@@ -624,18 +610,25 @@ def endScreen(score, winorlose):
 
 pygame.init()
 surface = pygame.display.set_mode((600, 400))
+FPSCLOCK = pygame.time.Clock()
+MAINFONT = pygame.font.SysFont('Helvetica', TEXTHEIGHT)
+DISPLAYSURF, DISPLAYRECT = makeDisplay()
 
 def start_the_game():
     mainmenu._open(loading)
-    main()
+    pygame.init()
+    pygame.display.set_caption('Puzzle Bobble')
+    while True:
+        score, winorlose = runGame()
+        endScreen(score, winorlose)
 
-mainmenu = pygame_menu.Menu('Welcome', 600, 400, theme=themes.THEME_BLUE)
+mainmenu = pygame_menu.Menu('Welcome', 700, 500, theme=themes.THEME_BLUE)
 mainmenu.add.text_input('Name: ', default='username')
 mainmenu.add.button('Play', start_the_game)
 mainmenu.add.button('Quit', pygame_menu.events.EXIT)
 
 
-loading = pygame_menu.Menu('Loading the Game...', 600, 400, theme=themes.THEME_DARK)
+loading = pygame_menu.Menu('Loading the Game...', 700, 500, theme=themes.THEME_DARK)
 loading.add.progress_bar("Progress", progressbar_id="1", default=0, width=200, )
 
 arrow = pygame_menu.widgets.LeftArrowSelection(arrow_size=(10, 15))
@@ -660,4 +653,3 @@ while True:
             arrow.draw(surface, mainmenu.get_current().get_selected_widget())
 
     pygame.display.update()
-
